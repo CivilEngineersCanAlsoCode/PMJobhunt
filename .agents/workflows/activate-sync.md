@@ -93,29 +93,18 @@ Then wire all dependencies as described in `resume_customization_plan.md` Phase 
 
 ## Step 4 — Check ChromaDB Status
 
-Run:
+> ✅ **No Docker required.** ChromaDB is installed natively at:
+>
+> - Global: `/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/site-packages/chromadb`
+> - Sync data path: `/Users/satvikjain/Downloads/PM/chroma_data/` (created on first run)
 
-```bash
-docker ps | grep chroma
-```
-
-**If ChromaDB container is NOT running**, start it with a **named volume** for persistent storage:
-
-```bash
-docker run -d --name chroma \
-  -v chroma_data:/chroma/chroma \
-  -p 8000:8000 \
-  chromadb/chroma
-```
-
-> ⚠️ The `-v chroma_data:/chroma/chroma` flag is **mandatory**. Without it, all career signals are lost on every Docker restart.
-> If the container already exists (stopped): `docker start chroma`
-
-**After ChromaDB is confirmed running**, perform a health check:
+Connect using `PersistentClient` — data is stored on disk and survives all restarts automatically:
 
 ```python
 import chromadb
-client = chromadb.HttpClient(host="localhost", port=8000)
+
+CHROMA_PATH = "/Users/satvikjain/Downloads/PM/chroma_data"
+client = chromadb.PersistentClient(path=CHROMA_PATH)
 col = client.get_or_create_collection("career_signals")
 count = col.count()
 print(f"ChromaDB health: {count} career signals indexed.")
@@ -143,7 +132,9 @@ json.dump(backup_data, open(fname, "w"), indent=2)
 print(f"Backup saved: {fname}")
 ```
 
-If ChromaDB is running and healthy, proceed to Step 4b.
+> 💡 `PersistentClient` writes to SQLite on disk — no server, no Docker, no ports needed. Data lives in `PM/chroma_data/chroma.sqlite3`.
+
+Proceed to Step 4b.
 
 ## Step 4b — Connect Obsidian Vault + Existing Resume ⭐ NEW
 
