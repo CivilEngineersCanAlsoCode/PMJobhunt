@@ -518,7 +518,7 @@ These are queued for development after Phase 1 MVP is stable:
 ## CONSTRAINTS & GUARDRAILS (Always Active)
 
 1. **Never fabricate metrics** — only use verified numbers from signal pool or user interview
-2. **Never modify `CV Format.html` base template** — always copy to new file first
+2. **`Base_Template.html` is immutable** — only editable via `/edit-template` workflow (requires explicit user confirmation + versioned backup)
 3. **Max 10 `&nbsp;`** for micro text gap adjustment — rephrase for major gaps
 4. **Date column `.c5` ≥ 14.5% always** — never reduce below this
 5. **`white-space: nowrap` on all date cells** — absolute rule
