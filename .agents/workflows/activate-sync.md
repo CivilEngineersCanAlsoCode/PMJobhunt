@@ -105,7 +105,36 @@ If ChromaDB is not running, print the following message to the user and pause:
 > `docker run -d --name chroma -p 8000:8000 chromadb/chroma`
 > Then type `/activate-sync` again to continue."
 
-If ChromaDB is running, proceed to Step 5.
+If ChromaDB is running, proceed to Step 4b.
+
+## Step 4b — Connect Obsidian Vault + Existing Resume ⭐ NEW
+
+Ask the user:
+
+**Obsidian Vault:**
+
+> "Do you use Obsidian to journal your work or maintain a career/project log?
+> If yes, paste the **absolute path** to your Obsidian vault folder."
+
+- If path provided → scan for `.md` files in folders named `Resume Brain`, `Career`, `Projects`, `Work`, `Experience`
+- List found files and confirm: "I found [N] files. I'll use these as your career signal source. Correct?"
+- If no vault → flag and proceed to full user interview in Step 5.
+
+**Existing Resume:**
+
+> "Please paste the **absolute path** to your most recent resume (PDF or DOCX)."
+
+- If provided → parse name, titles, all work experience (dates, roles, companies), education, skills
+- Summarize: "I extracted [N] roles and [N] education entries. Does this look complete?"
+- If no resume → flag and proceed to full user interview.
+
+**Outcome Matrix:**
+| Obsidian | Resume | Path |
+|----------|--------|------|
+| ✅ | ✅ | Pre-fill Step 1.1 profile → confirm with user (fast track) |
+| ✅ | ❌ | Use vault, conduct partial interview for gaps |
+| ❌ | ✅ | Parse resume, run structured interview for depth |
+| ❌ | ❌ | Full empathetic Ultra Detail interview |
 
 ## Step 5 — User Onboarding Interview
 

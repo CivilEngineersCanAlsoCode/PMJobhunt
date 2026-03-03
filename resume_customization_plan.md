@@ -1,6 +1,6 @@
 # SYNC — Resume Customization Master Plan
 
-> **Version:** 3.0 (Scalable Platform Design)
+> **Version:** 4.0 (Obsidian Vault + Gap Confidence Gate + Epic Renumbering)
 > **Output Format:** HTML + CSS (GitHub Pages hosted)
 > **Trigger:** `/activate-sync` workflow command
 > **Orchestrator:** Antigravity (Claude Code CLI)
@@ -11,143 +11,263 @@
 
 Sync is an AI-powered, signal engineering resume customization system. It:
 
-1. Captures and vectorizes user career signals into ChromaDB
-2. Parses any target Job Description into a structured schema
-3. Semantically retrieves the most relevant experience snippets per JD
+1. Connects to user's Obsidian vault + existing resume to extract career signals
+2. Captures and vectorizes career signals into ChromaDB (Q&A chunked format)
+3. Parses each target JD and confirms ≥90% confidence before customizing
 4. Constructs a pixel-perfect, one-page, brand-colored HTML/CSS resume
-5. Hosts it on GitHub Pages under a structured folder hierarchy
-6. Tracks the application with a match score and application details file
+5. Hosts all resumes on GitHub Pages with a master README.md index
+6. Tracks each application with a match score + recruiter artifacts
 
-The system is **self-serve** — a new user with zero context triggers `/activate-sync` and the workflow guides them through every stage, including onboarding, GitHub setup, ChromaDB ingestion, and the first batch of resume customizations.
+> 🔒 **BASE TEMPLATE IS IMMUTABLE:** `Templates/Base_Template.html` is locked after initial creation.
+> It may **only** be modified via the `/edit-template` command.
+> The customization engine always **copies** the template — never edits it in place.
 
 ---
 
-## PHASE 0: `/activate-sync` — Platform Bootstrap Workflow
+## EPIC 0: Platform Bootstrap (`/activate-sync`)
 
 **File:** `.agents/workflows/activate-sync.md`
-**Trigger:** User types `/activate-sync` in any new Antigravity session
 
 ### Step 0.1 — Dependency Check & System Health
 
-- Check if `bd` CLI is installed (`bd --version`). If not, install it and run `bd init`.
-- Check for existing `bd` context using `bd context`. If empty, initialize the Sync epic structure.
-- Check if ChromaDB Docker container is running (`docker ps | grep chroma`). If not present, flag for user with instructions to `docker run` it (ChromaDB is self-hosted; cannot auto-start without approval).
-- Check if `.agents/workflows/activate-sync.md` exists. If it does, skip bootstrap and jump to Step 0.3.
+- Check if `bd` CLI is installed. If not, install and `bd init`.
+- Run `bd context` — if Sync epics exist, skip to Step 0.5 (returning user).
+- Check for ChromaDB Docker container (`docker ps | grep chroma`). If absent, pause and instruct user.
 
 ### Step 0.2 — bd Task Graph Initialization (First Run Only)
 
-Create the following `bd` epics and tasks in one command sequence and link dependencies:
+Create all epics, tasks, and dependencies as listed below in the bd dependency graph section.
 
-```
-EPIC: PM-SYNC-00   "Sync Platform: Career Signal Onboarding"
-  TASK: PM-SYNC-01   "Run structured user interview (career history + metrics)"
-  TASK: PM-SYNC-02   "Ingest all Resume Brain files into ChromaDB"
-  TASK: PM-SYNC-03   "Create blank HTML resume template with placeholders"
-  TASK: PM-SYNC-04   "Connect GitHub account and configure target repository"
-  TASK: PM-SYNC-05   "Push blank template to GitHub → init Sync/ folder structure"
+### Step 0.3 — Context Recovery (Returning Users)
 
-EPIC: PM-SYNC-10   "Sync Platform: JD Input + Batch Loop Setup"
-  TASK: PM-SYNC-11   "Read input CSV (Company, Website, JD)"
-  TASK: PM-SYNC-12   "Parse JD → structured schema (keywords, skills, metrics expected)"
-  TASK: PM-SYNC-13   "Query ChromaDB → retrieve top-k most relevant signal entries"
+- Run `bd ready --json` + `bd context`
+- Print: "Welcome back to Sync. Your next unblocked task is [PM-SYNC-XX]. Continue?"
 
-EPIC: PM-SYNC-20   "Sync Platform: Resume Customization Engine (Per Application)"
-  TASK: PM-SYNC-21   "Phase 1: Intelligence Map (JD ↔ Experience signals)"
-  TASK: PM-SYNC-22   "Phase 2: Verification Interview (if gap exists)"
-  TASK: PM-SYNC-23   "Phase 3: Content Draft (XYZ bullets, 82-88 chars each)"
-  TASK: PM-SYNC-24   "Phase 4: Brand Research (Colors CSS variables)"
-  TASK: PM-SYNC-25   "Phase 5: HTML Assembly (copy template, inject content)"
-  TASK: PM-SYNC-26   "Phase 6: Sub-Header Styling (pipe approach, border = #000)"
-  TASK: PM-SYNC-27   "Phase 7: Date Column Validation (c5 ≥ 14.5%, nowrap)"
-  TASK: PM-SYNC-28   "Phase 8: One-Line Bullet Validation (no wrapping, char count)"
-  TASK: PM-SYNC-29   "Phase 9: Compression Pass (ensure 1 page exactly)"
-  TASK: PM-SYNC-30   "Phase 10: Match Score Calculation"
-  TASK: PM-SYNC-31   "Phase 11: GitHub Push (Sync/<Company>/<Role>/ folder)"
-  TASK: PM-SYNC-32   "Phase 12: Generate Recruiter InMail + 300-char Invite"
+### Step 0.4 — Obsidian Vault + Existing Resume Connection ⭐ NEW
 
-EPIC: PM-SYNC-40   "Sync Platform: Presentation (Why Me Slides)"
-  TASK: PM-SYNC-41   "Create frontend Claude skills slide deck (Why Me)"
+Ask the user two things:
 
-Dependencies:
-  PM-SYNC-02 → PM-SYNC-01 (Interview must happen before ingestion)
-  PM-SYNC-03 → PM-SYNC-02 (Template created after signals ingested)
-  PM-SYNC-05 → PM-SYNC-04 (Repo push needs GitHub connected)
-  PM-SYNC-11 → PM-SYNC-05 (Batch loop starts after setup complete)
-  PM-SYNC-12 → PM-SYNC-11 (JD parsing after CSV input)
-  PM-SYNC-13 → PM-SYNC-12 (Retrieval after JD parsed)
-  PM-SYNC-21 → PM-SYNC-13 (Customization after signals retrieved)
-  PM-SYNC-22 → PM-SYNC-21 (Interview if gaps found in intellignce map)
-  PM-SYNC-23 → PM-SYNC-22 (Draft after verification)
-  PM-SYNC-24 → PM-SYNC-21 (Brand research runs parallel to interview)
-  PM-SYNC-25 → PM-SYNC-23, PM-SYNC-24 (Assembly needs draft + brand)
-  PM-SYNC-26 → PM-SYNC-25 (Styling after assembly)
-  PM-SYNC-27 → PM-SYNC-26 (Date validation after layout set)
-  PM-SYNC-28 → PM-SYNC-27 (Bullet check after date check)
-  PM-SYNC-29 → PM-SYNC-28 (Compression after all bullets pass)
-  PM-SYNC-30 → PM-SYNC-29 (Score after resume is finalized)
-  PM-SYNC-31 → PM-SYNC-30 (Push after score done)
-  PM-SYNC-32 → PM-SYNC-31 (Recruiter messages after push)
-```
+**A) Obsidian Vault:**
 
-### Step 0.3 — Context Recovery (Subsequent Sessions)
+> "Do you use Obsidian for note-taking or maintaining a career/project journal?
+> If yes, please paste the **absolute path** to your Obsidian vault folder."
 
-- Run `bd ready --json` to see the next unblocked task.
-- Run `bd context` to display the current active branch and active epic.
-- Announce the current state and prompt: "Welcome back to Sync. Your next task is [PM-SYNC-XX]. Want to continue?"
+- If path provided → scan for any `.md` files inside folders named `Resume Brain`, `Career`, `Projects`, `Work`, `Experience`, or at the vault root.
+- List all found files to user and confirm: "I found [N] files in your vault. I'll use these as your career signal source. Does this look right?"
+- If no vault → flag and proceed to Epic 1 structured interview.
+
+**B) Existing Resume:**
+
+> "Please paste the **absolute path** to your most recent resume (PDF or DOCX)."
+
+- If file provided → parse it to extract: name, current title, all work experiences with dates and roles, academic records, skills/tools listed.
+- Summarize extraction: "I extracted [N] work experiences, [N] education entries, and the following skills: [...]. Does this look complete?"
+- If no resume → flag and proceed to structured interview.
+
+**Outcome Paths:**
+| Obsidian | Resume | Action |
+|----------|--------|--------|
+| ✅ | ✅ | Pre-fill Step 1.1 and confirm with user (fast track) |
+| ✅ | ❌ | Use vault as signal source, conduct partial interview for resume details |
+| ❌ | ✅ | Parse resume, conduct vault-equivalent structured interview |
+| ❌ | ❌ | Conduct full empathetic multi-step interview (Ultra Detail mode) |
 
 ---
 
-## PHASE 1: USER ONBOARDING (Career Signal Capture)
+## EPIC 1: User Onboarding + Career Signal Capture
 
-### Step 1.1 — Structured User Interview (PM-SYNC-01)
+### Step 1.1 — User Profiling & Assumption Confirmation ⭐ UPDATED
 
-Conduct a guided Q&A to extract structured career signals. Questions are organized by category:
+**If Obsidian + Resume were both provided:**
+Pre-fill a structured profile from the extracted data and present it to the user:
 
-**Career Identity:**
+```
+Here is what I know about you so far. Please confirm or correct:
 
-- Full name, current title, years of full PM experience, current/target CTC
-- Target role type (FAANG PM, SaaS PM, Consulting PM)
+👤 IDENTITY
+Name: Satvik Jain | Age: 27 | Gender: Male
+Current Title: Senior Associate Product Manager
+Current Company: American Express
+Current CTC: [?] | Target CTC: [?]
+Target Roles: PM at FAANG / Global SaaS
 
-**For EACH Work Experience (most recent first):**
+💼 EXPERIENCE (most recent first)
+1. Amex (Jul 2024 – Present): AML scoring, AI/ML, 30M+ daily txns
+   → Assumed impact: Increased throughput / Reduced risk exposure [Confirm %?]
+2. Sprinklr (Apr 2022 – Jul 2024): LLM support tooling, Walmart project
+   → Assumed metric: 85% time-to-insight reduction [Confirm?]
+3. Sukha Education (Jan 2025 – Present, Voluntary): NGO digital transformation
+   → Assumed: Cost savings ₹60K, 50+ volunteers [Confirm?]
 
-- Company name, official title, duration
-- What did you own? (product area + user base size)
-- What was your biggest measurable impact? (quantify with %)
-- What technology/AI/ML did you work with?
-- What was the hardest stakeholder challenge?
-- Any awards, LORs, promotions?
+🎓 EDUCATION
+IIT Delhi (B.Tech) | CGPA: [?] | Year: [?]
 
-**Competitive Exam & Academic Records:**
+🛠 SKILLS
+AI/ML, LLM Products, Agentic Frameworks, SaaS, Cross-functional leadership
 
-- Scores, ranks, institution names, years
+❓ GAPS I NEED YOU TO FILL
+- What is your current and target CTC?
+- What was your exact CGPA / scores?
+- Any CAT/GMAT/other competitive exam results?
+- Any awards, promotions, or LORs received?
+```
 
-**Projects & Side Work:**
+User can confirm, correct, or add to each section. All corrections are immediately stored.
 
-- Name, role, outcome (GitHub links, demos if any)
-
-All answers stored in structured JSON format: `Resume Brain/interview_signal_YYYY-MM-DD.json`
-
-### Step 1.2 — Resume Brain Ingestion into ChromaDB (PM-SYNC-02)
-
-For every file inside `Resume Brain/`:
-
-1. Parse and chunk the text content (500-token chunks with 50-token overlap)
-2. Generate embeddings via the active embedding model
-3. Store in ChromaDB collection `career_signals` with metadata:
-   - `source_file`, `company`, `role`, `year`, `impact_type`
-4. Confirm storage with a count check
-
-> **Note:** ChromaDB requires Docker to be running. If Docker is not active, this step will pause and display: _"ChromaDB requires Docker. Please run: `docker start chroma`. Then type `/activate-sync` again."_
+**If partial or no data was provided:**
+Run the full empathetic multi-step interview below.
 
 ---
 
-## PHASE 2: BASE TEMPLATE SETUP
+### 🗣️ Full User Interview — Ultra Detail Mode (When Data is Missing)
 
-### Step 2.1 — Create Blank HTML Template with Placeholders (PM-SYNC-03)
+> ℹ️ **Tone:** Behave like a college senior helping a friend build their first strong resume. Be warm, practical, and encouraging. Acknowledge uncertainty. Suggest reasonable assumptions when exact data isn't available.
 
-Copy `Templates/CV Format.html` into `Templates/Base_Template.html`.
+The interview is broken into 5 sequential sessions. Each session can be paused and resumed.
 
-Replace all content sections with clearly annotated placeholder text:
+**Session A: Who Are You?**
+
+```
+Let's start with the basics! This helps me understand where you are and where you want to go.
+
+1. What's your full name?
+2. What's your current job title? (Don't worry if it doesn't say "PM" — tell me what you actually do)
+3. Which company are you currently at, and for how long?
+4. What's your current salary range? (Rough range is fine, this helps me gauge seniority signals)
+5. What kind of roles are you targeting? (e.g., FAANG PM, B2B SaaS PM, Fintech PM)
+6. Is there a specific company or type of company you're most excited about?
+```
+
+**Session B: Your Work (One Role at a Time)**
+For each role (most recent first), ask:
+
+```
+Let's talk about your time at [Company]. This is where your strongest stories live!
+
+1. What was your official title vs what you actually did day-to-day?
+2. What product or feature were you most responsible for?
+   (If you're not sure how to describe it, just tell me what problem it solved for users)
+3. How many people used your product? (rough estimate is totally fine — even "tens of thousands")
+4. What's the one thing you're most proud of building or delivering there?
+5. Do you remember any numbers? (e.g., % faster, % more revenue, cost saved, users grown)
+   → If not: "Think of it this way — before you made the change, what happened? After, what changed?"
+   → Suggest: "Was it like a 20-30% improvement? Or more like 2x? Even a rough estimate helps."
+6. Did you lead anyone? Team size? Cross-functional teams?
+7. Did you work with engineers? Data scientists? Did you write PRDs or run sprints?
+8. Any awards, LinkedIn shoutouts, performance ratings, LORs from this role?
+```
+
+**Session C: Academic & Exam Records**
+
+```
+Quick one — your academic background matters more than you think for FAANG applications!
+
+1. Where did you do your undergrad? What stream? What year did you graduate?
+2. What was your CGPA or percentage? (Even approximate is fine)
+3. Did you appear for CAT, GMAT, GRE, JEE, or any other competitive exam?
+   - If yes: Which ones, what year, and what was your score/percentile/rank?
+4. Any academic projects or thesis work that involved analytics, tech, or business?
+```
+
+**Session D: Projects, Side Work & Extras**
+
+```
+Beyond your main job, what else have you built or contributed to?
+
+1. Any personal projects, freelance work, or volunteer roles?
+2. Any GitHub repos, live products, or portfolio links?
+3. Any courses, certifications, or workshops relevant to PM/AI/ML?
+4. Any community involvement — hackathons, conferences, writing, teaching?
+```
+
+**Session E: Aspirations & Gap Awareness**
+
+```
+Last one — and this one is really important for matching you to the right roles.
+
+1. What excites you most about the roles you're applying for?
+2. Is there anything in the JDs you're seeing that you feel you lack?
+   (Be honest — knowing the gaps helps me help YOU prepare for them)
+3. Are you open to roles that are slightly different from your exact experience?
+   (e.g., adjacent industries, slightly different user segments)
+4. Any specific companies you'd love to work at, and why?
+```
+
+---
+
+### Step 1.2 — ChromaDB Ingestion (Q&A Chunked Format) ⭐ UPDATED
+
+After the profile is confirmed, ingest all career signals into ChromaDB.
+
+**Chunking Strategy (Industry Best Practice):**
+
+All data is stored as **self-contained Q&A pairs** — each chunk is written so it carries full context about which company, role, and time period it refers to, making retrieval maximally precise.
+
+**Chunk Format:**
+
+```json
+{
+  "question": "What did you accomplish at Sprinklr as a Senior Product Analyst between Apr 2022 and Jul 2024?",
+  "answer": "Built the Walmart Gen-AI support assistant handling 100K+ calls. Cut time-to-insight by 85% via LLM-based RCA engine. Scaled support efficiency 40% via unsupervised ML clustering.",
+  "metadata": {
+    "company": "Sprinklr",
+    "role": "Senior Product Analyst",
+    "duration": "Apr 2022 – Jul 2024",
+    "impact_type": ["efficiency", "AI/ML", "scale"],
+    "keywords": ["LLM", "GenAI", "support", "Walmart", "unsupervised ML"],
+    "confidence": "high"
+  }
+}
+```
+
+**Chunk Types (one per signal):**
+
+- `role_summary` — one chunk per job role (who, what, scope)
+- `impact_bullet` — one chunk per measurable achievement
+- `tech_stack` — one chunk listing all tools/tech used in that role
+- `leadership` — one chunk for any people/stakeholder management story
+- `academic_record` — one chunk per institution/exam
+- `project` — one chunk per side project or voluntary work
+
+**Chunking Parameters:**
+
+- Chunk size: ~400 tokens
+- Overlap: 80 tokens (ensures context continuity between adjacent chunks)
+- Collection: `career_signals`
+- Deduplication: check for existing chunk with same `(company, role, impact_type)` before inserting
+
+**Confirmation Gate (Per Chunk):**
+Before inserting each chunk, print:
+
+```
+📦 About to add to ChromaDB:
+   Collection: career_signals
+   Company: Sprinklr | Role: Senior Product Analyst
+   Type: impact_bullet
+   Content: "Built the Walmart Gen-AI support assistant..."
+
+✅ Add this? (yes / rewrite / skip)
+```
+
+After full ingestion print summary:
+
+```
+✅ ChromaDB Ingestion Complete
+   Total chunks added: [N]
+   Collections updated: career_signals
+   Total unique roles indexed: [N]
+   Total unique companies: [N]
+```
+
+---
+
+## EPIC 2: Base Template Setup
+
+### Step 2.1 — Create `Base_Template.html`
+
+Copy `Templates/CV Format.html` → `Templates/Base_Template.html`.
+
+Replace all content with placeholder annotations:
 
 ```html
 <!-- HEADER -->
@@ -155,26 +275,24 @@ Replace all content sections with clearly annotated placeholder text:
 <span class="meta">| {{GENDER}} | {{AGE}}</span>
 
 <!-- TAGBAR: 4 most relevant signal phrases for this company -->
-<div class="t">{{TAGBAR_1: e.g. "IIT Delhi Alumnus"}}</div>
-...
+<div class="t">{{TAGBAR_1}}</div>
+<div class="t">{{TAGBAR_2}}</div>
+<div class="t">{{TAGBAR_3}}</div>
+<div class="t">{{TAGBAR_4}}</div>
 
-<!-- Professional Summary: 3 lines, justified, 82-88 chars per line -->
-<td class="dsc">
-  {{PROFESSIONAL_SUMMARY_LINE_1}} ...
+<!-- Professional Summary: 3 lines, natural fill, 82-88 chars per line -->
+<td class="dsc">{{PROFESSIONAL_SUMMARY}}</td>
 
-  <!-- Experience Row: Each role gets one .sub row + labeled .dsc rows -->
-</td>
-
+<!-- Experience: .sub row per role, .dsc rows for bullets -->
 <td class="tl">{{COMPANY_NAME}}</td>
 <td>{{ROLE_TITLE}}</td>
-<td>{{ROLE_TAGS: 3 signal phrases | piped}}</td>
-<td>{{DATE_START}} – {{DATE_END}}</td>
+<td>{{ROLE_TAG_1}} | {{ROLE_TAG_2}} | {{ROLE_TAG_3}}</td>
+<td class="yr">{{DATE_START}} – {{DATE_END}}</td>
 ```
 
-#### Key CSS Rules (always preserved in template):
+#### Locked CSS Guardrails (Never Change Here — Use `/edit-template`):
 
 ```css
-/* Grid: c5 must remain ≥ 14.5% to prevent date clipping */
 colgroup .c0 {
   width: 3.9%;
 }
@@ -193,114 +311,99 @@ colgroup .c0 {
 .c5 {
   width: 14.5%;
 }
-
-/* Date cells: never wrap */
-.sub td:last-child {
-  white-space: nowrap;
-}
+.sub td:last-child,
 .yr {
   white-space: nowrap;
 }
-
-/* Sub-header: company row — PIPE approach, no heavy background */
-.sub {
-  background: #f8f8f8;
-  color: #111;
-  border-bottom: 1.5px solid #000;
-}
-.sub td {
-  font-weight: 600;
-  text-align: left;
-}
-
-/* Borders: all table borders pitch black */
 --color-border: #000000;
-
-/* Typography: retain Sans-Serif, scale to 9pt */
 body {
   font-family: "Segoe UI", Calibri, Arial, sans-serif;
   font-size: 9pt;
-  line-height: 1.4;
 }
-
-/* Bullet density targeting */
-.dsc {
-  font-size: 8.5pt;
-  line-height: 1.35;
-}
-.dsc ul {
-  padding-left: 14px;
-}
-.dsc li {
-  margin-bottom: 1px;
-}
-
-/* Micro-stretch utilities for final ~1-3mm gap adjustment */
-.stretch-1 {
-  letter-spacing: 0.15px;
-  word-spacing: 1px;
-}
-.stretch-2 {
-  letter-spacing: 0.3px;
-  word-spacing: 2px;
-}
-
-/* Spacer between jobs (visual breathing room) */
-.spacer td {
-  height: 6px;
-  border: none !important;
+.sub {
+  background: #f5f5f5;
+  border-top: 2px solid #000;
+  border-bottom: 1px solid #000;
 }
 ```
 
+> 🔒 Once created, `Base_Template.html` is **immutable**. Use `/edit-template` for any future changes.
+
 ---
 
-## PHASE 3: GITHUB SETUP (PM-SYNC-04, PM-SYNC-05)
+## EPIC 3: GitHub Setup
 
 ### Step 3.1 — Connect GitHub
 
-Ask user:
-
-1. "Paste your GitHub Personal Access Token (with `repo` scope)."
-2. "Paste the full URL of the GitHub repository where resumes will be stored."
-
-Store these in a local `.env` file (never committed to git).
+- Ask for GitHub Personal Access Token (repo scope) + repository URL
+- Store in `.env` (gitignored)
 
 ### Step 3.2 — Initialize Sync Folder Structure
 
-After cloning or connecting to the repo, create:
-
 ```
+/                              ← repo root
+├── Base_Template.html         ← LOCKED master template
+├── README.md                  ← Master index with tree + GitHub Pages links (auto-updated)
+├── Templates/
+│   ├── CV Format.html         ← Original reference (never edited)
+│   ├── Base_Template.html     ← Locked working template
+│   └── TEMPLATE_CHANGELOG.md  ← Edit audit log
+└── Sync/
+    ├── <Company_A>/
+    │   └── <Role_1>/
+    │       ├── resume.html              ← Customized resume (GitHub Pages hosted)
+    │       └── application_details.md  ← JD, score, live link, recruiter artifacts
+    └── <Company_B>/
+        └── <Role_1>/
+            ├── resume.html
+            └── application_details.md
+```
+
+### Step 3.3 — Auto-Generated README.md ⭐ NEW
+
+A `README.md` at the repo root is created on first GitHub push and **auto-updated** after every new resume is added:
+
+```markdown
+# Sync — Resume Portfolio
+
+> Powered by the Sync resume customization platform.
+
+## Applications Dashboard
+
+| #   | Company | Role              | Match Score | Resume                                                                       | Applied    |
+| --- | ------- | ----------------- | ----------- | ---------------------------------------------------------------------------- | ---------- |
+| 1   | Google  | PM – Search       | 94/100      | [View Resume](https://user.github.io/repo/Sync/Google/PM-Search/resume.html) | 2026-03-04 |
+| 2   | Amazon  | Senior PM – Alexa | 88/100      | [View Resume](https://user.github.io/repo/Sync/Amazon/PM-Alexa/resume.html)  | —          |
+
+## Folder Structure
+
 Sync/
-  README.md           ← Platform overview + how to read match scores
-  <Company_Name>/
-    <Role_Name>/
-      resume.html     ← Branded, hosted resume
-      application_details.md ← JD, key requirements, match score, GitHub Pages link
+├── Google/
+│ └── PM-Search/
+│ ├── resume.html
+│ └── application_details.md
+└── Amazon/
+└── PM-Alexa/
+├── resume.html
+└── application_details.md
 ```
-
-Push the empty scaffolding with an initial commit: `"chore: init Sync folder structure"`.
-
-Enable GitHub Pages from the root of the repository (Settings → Pages → Deploy from branch `main`).
 
 ---
 
-## PHASE 4: JD INPUT LOOP
+## EPIC 4: JD Input Batch Loop
 
-### Step 4.1 — Input CSV Format (PM-SYNC-11)
+### Step 4.1 — Read Input CSV
 
-The user provides a file at `Input/job_batch.csv`:
+File: `Input/job_batch.csv`
 
 ```csv
 Company,Website,Role,JD
-Google,https://google.com,PM - Search,"Full JD text here..."
-Amazon,https://amazon.com,Senior PM - Alexa,"Full JD text here..."
+Google,https://google.com,PM - Search,"Full JD text..."
 ```
 
-One resume customization cycle will run **per row**, sequentially.
+### Step 4.2 — JD Parsing → Confidence Check ⭐ UPDATED
 
-### Step 4.2 — JD Parsing (PM-SYNC-12)
-
-For each row, parse the JD into a structured schema:
+Parse the JD into a structured schema:
 
 ```json
 {
@@ -313,217 +416,285 @@ For each row, parse the JD into a structured schema:
 }
 ```
 
-### Step 4.3 — ChromaDB Retrieval (PM-SYNC-13)
+Then immediately query ChromaDB for top-8 signals. Calculate initial **Context Confidence Score**:
 
-Query ChromaDB collection `career_signals` with the combined JD embedding to retrieve the top-8 most semantically relevant signal entries. These become the "evidence pool" for content drafting.
+```
+Confidence = (JD skills with matching evidence) / (total JD required skills) × 100
+```
+
+- If **Confidence ≥ 90%** → proceed directly to Epic 5 (Confidence Gate)
+- If **Confidence < 90%** → trigger **Gap Interview Loop** (below)
+- If gap is **uncoverable** (user has truly zero experience in skill) → proceed anyway but flag it for strength penalty in match score
+
+### Step 4.3 — Gap Interview Loop (if Confidence < 90%)
+
+> 🧠 Tone: Still warm and supportive — like a senior helping before an interview.
+
+For each gap skill, ask one targeted question:
+
+```
+I noticed this role at Google requires "Search Ranking experience" — I don't see anything about this
+in your profile yet.
+
+Have you ever worked with any kind of ranking, recommendation, or relevance system?
+Even indirectly — like A/B testing content ordering, or building a feed algorithm?
+
+(If yes, tell me the story. If no, that's okay — I'll help you handle it differently.)
+```
+
+**Three possible outcomes per gap:**
+
+1. **User provides story** → extract structured signal, store in Obsidian + ChromaDB, update confidence score
+2. **User says "I have no experience"** → flag as confirmed gap, suggest theoretical prep:
+
+   ```
+   No worries! Here are 3 questions you might get asked about Search Ranking:
+   1. "How would you prioritize ranking signals for a search feature?"
+   2. "Walk me through how you'd A/B test a ranking algorithm change."
+   3. "How do you balance freshness vs relevance in search?"
+
+   Would you like me to wait while you note these down? Once you've prepared answers,
+   you can share them here and I'll add them to your profile. Or type 'skip' to continue.
+   ```
+
+3. **User skips** → proceed but apply -10 pts to match score per unresolved gap
+
+After loop:
+
+```
+Updated Confidence Score: [X]%
+Unresolved gaps: [list]
+→ These will reduce your overall Application Strength Score.
+Proceed to resume customization? (yes/no)
+```
+
+### Step 4.4 — ChromaDB Retrieval (PM-SYNC-13)
+
+After confidence gate passes, query ChromaDB → top-8 most relevant signal entries for this JD.
 
 ---
 
-## PHASE 5: RESUME CUSTOMIZATION ENGINE (Per Application)
+## EPIC 5: Pre-Customization Confidence Gate ⭐ NEW EPIC
 
-> Every sub-task below corresponds to an atomic `bd` task. Each must be completed and verified before the next begins.
+> This is a mandatory checkpoint BEFORE any resume content is written.
 
-### Phase 5.1 — Intelligence Map (PM-SYNC-21)
+### Step 5.1 — Generate Confidence Report
+
+For each JD required skill:
+
+```
+✅ AI/ML leadership          → Covered (Amex, Sprinklr — 3 strong bullets)
+✅ Cross-functional execution → Covered (Amex — 18-member scrum team)
+⚠️  Search Ranking            → Partial (user gave indirect story — medium confidence)
+❌  Voice UI / Conversational → Missing (no experience, prep questions given)
+```
+
+### Step 5.2 — Application Strength Score (Pre-Resume)
+
+```
+Application Strength: 78/100
+──────────────────────────────
+Skill coverage:      +52 pts (6/8 JD skills covered)
+Metric alignment:    +16 pts (4 matching KPI types)
+Tagbar fit:          +10 pts (all 4 tagbar slots map to JD)
+Unresolved gaps:     -10 pts (Voice UI gap unaddressed)
+──────────────────────────────
+Target: ≥90/100 for a strong application
+```
+
+### Step 5.3 — Gate Decision
+
+- Score ≥ 90% → Proceed to Epic 6 (Resume Customization Engine)
+- Score 75–89% → Warn user: "This is a workable application but below ideal. Continue?"
+- Score < 75% → Hard warn + ask user to run another gap interview loop or skip this opening
+
+---
+
+## EPIC 6: Resume Customization Engine (Per Application)
+
+> Every phase is an atomic `bd` task. Each must be verified before the next begins.
+
+### Phase 6.1 — Intelligence Map
 
 Create `Sync/<Company>/<Role>/intelligence_map.md`:
 
-- Map each JD required skill → to a matching experience snippet from the signal pool
-- Identify any critical gaps (skills required but not in evidence pool)
-- Define 4 Tagbar signal phrases for this company
-- Define the "Top-Third Marketing Pitch" (who Satvik is for _this_ company)
+- Map JD skills → experience evidence from ChromaDB signal pool
+- Define 4 Tagbar phrases
+- Write Top-Third Marketing Pitch for this company
 
-### Phase 5.2 — Verification Interview (PM-SYNC-22)
+### Phase 6.2 — Content Draft
 
-If any gap exists from the Intelligence Map:
+Draft full content in `Sync/<Company>/<Role>/content_draft.md`:
 
-- Prompt the user with targeted questions (e.g., "You need 'Search API experience' for this role. Tell me one time you worked with APIs or search infrastructure?")
-- Store answers in ChromaDB for future use
-- Gate: Only proceed to Phase 5.3 after user confirms or skips all gap questions
+**Non-Negotiable Rules:**
 
-### Phase 5.3 — Content Draft (PM-SYNC-23)
+| Rule                | Standard                                                        |
+| ------------------- | --------------------------------------------------------------- |
+| Bullet format       | Google XYZ: "Accomplished [X] as measured by [Y] by doing [Z]"  |
+| Character count     | 82–88 chars per bullet (9pt Segoe UI / Calibri on A4)           |
+| Line count          | Exactly 1 line per bullet — zero wrapping                       |
+| Bold keywords       | 2–4 bold terms per bullet                                       |
+| Metric density      | At least 1 number/% per bullet                                  |
+| Fabrication rule    | NEVER invent metrics — verified signal pool only                |
+| Trailing adjustment | Max 10 `&nbsp;` for micro gaps (<3mm). Rephrase for major gaps. |
 
-Draft the full resume content in `Sync/<Company>/<Role>/content_draft.md`:
+### Phase 6.3 — Brand Research
 
-**Rules (NON-NEGOTIABLE):**
-
-| Rule                | Standard                                                             |
-| ------------------- | -------------------------------------------------------------------- |
-| Bullet format       | Google XYZ: "Accomplished [X] as measured by [Y] by doing [Z]"       |
-| Character count     | 82–88 characters per bullet (including spaces, for 9pt @ A4 width)   |
-| Line count          | Exactly 1 line per bullet — ZERO wrapping allowed                    |
-| Bold keywords       | Every bullet: 2-4 bold terms                                         |
-| Metric density      | Every bullet: at least 1 number/%                                    |
-| Fabrication rule    | NEVER invent metrics — only use verified numbers from signal pool    |
-| Trailing adjustment | Max 10 `&nbsp;` to close minor (<3mm) gap. For major gaps, rephrase. |
-
-For each role's sub-sections, draft enough bullets to fill exactly the available vertical space (no overflow, no bottom whitespace).
-
-### Phase 5.4 — Brand Research (PM-SYNC-24)
-
-Search the web for `<company> official brand colors hex codes`. Store in CSS variables:
+Search for `<company> official brand colors hex`. Map to:
 
 ```css
---color-primary: #HEX; /* Primary brand color → section headers */
---color-secondary: #HEX; /* Secondary color → tagbar background */
---color-accent: #HEX; /* CTA / link color */
+--color-primary: #HEX;
+--color-secondary: #HEX;
+--color-accent: #HEX;
 ```
 
-### Phase 5.5 — HTML Assembly (PM-SYNC-25)
+### Phase 6.4 — HTML Assembly
 
-1. Copy `Templates/Base_Template.html` → `Sync/<Company>/<Role>/resume.html`
-2. Inject all content from `content_draft.md` into the HTML placeholders
-3. Apply brand color CSS variables at the top of the `<style>` block
-4. Apply the Sub-Header pipe approach: each `.sub` row contains `Company | Role | Tag1 | Tag2 | Tag3 | Date`
+1. `cp Templates/Base_Template.html Sync/<Company>/<Role>/resume.html`
+2. Inject all content from `content_draft.md`
+3. Apply brand color CSS variables
 
-### Phase 5.6 — Sub-Header Visual Overhaul (PM-SYNC-26)
+### Phase 6.5 — Sub-Header Visual Styling
 
-Replace heavy `.sub td` dark backgrounds with:
+Pipe-separated, light background `.sub` rows only:
 
 ```css
 .sub {
   background: #f5f5f5;
-  color: #111111;
+  color: #111;
   border-top: 2px solid #000;
   border-bottom: 1px solid #000;
 }
-.sub td {
-  font-weight: 700;
-  padding: 3px 5px;
-}
 ```
 
-Company name gets left-aligned. Role gets center alignment. Date gets right alignment with `white-space: nowrap`.
+Format: `Company | Role Title | Tag1 | Tag2 | Tag3 | Date`
 
-### Phase 5.7 — Date Column Validation (PM-SYNC-27)
+### Phase 6.6 — Date Column Validation (HARD STOP)
 
-Automated check:
+- Assert `.c5 ≥ 14.5%`
+- Assert `white-space: nowrap` on `.yr` and `.sub td:last-child`
+- If clipping → increase `.c5` to `16%`, reduce `.c2` + `.c4` by `0.75%` each
 
-- Assert `colgroup .c5 { width: 14.5% }` is present in the CSS
-- Assert `.yr` and `.sub td:last-child` both have `white-space: nowrap`
-- Visually confirm no date string exceeds 20 chars (format: `MMM'YY – MMM'YY` or `MM/YYYY – Present`)
-- **Hard Stop:** If dates are clipping in browser preview, increase `.c5` to `16%` and reduce `.c2` and `.c4` by `0.75%` each.
+### Phase 6.7 — Bullet Line Validation (HARD STOP)
 
-### Phase 5.8 — Bullet Line Validation (PM-SYNC-28)
+- Run char count on each `<li>` (target: 82–92)
+- Apply `stretch-1` for 75–81 char range
+- Rephrase (add genuine context) for bullets under 75 chars
+- Trim for bullets over 92 chars
+- Assert zero `<br>` inside any `<li>`
 
-For each `<li>` element, verify:
+### Phase 6.8 — Compression Pass (1 Page Hard Stop)
 
-1. Character count is between 82 and 92 (count using a script: `grep -o '.' | wc -c`)
-2. No `<br>` tags exist inside any `<li>`
-3. No line visually wraps when rendered in Chrome at 100% zoom on A4 size
-4. Apply `class="stretch-1"` to bullets in the 75-81 char range
-5. Rephrase (add 3-6 words of genuine context) any bullet under 75 chars
-6. Trim (remove lowest-value words) any bullet over 92 chars
+- Render HTML → check height vs 297mm
+- Overflow: reduce spacer heights + line-height
+- Underflow: increase spacers or font-size by 0.5pt steps
+- Repeat until page is exactly full
 
-### Phase 5.9 — Compression Pass — 1 Page Check (PM-SYNC-29)
+### Phase 6.9 — Match Score Calculation
 
-Render the HTML. Check if the content fits inside exactly 297mm vertical height.
-
-- If overflowing: reduce `.spacer td { height }` from 6px → 4px, reduce `.dsc` line-height from 1.35 → 1.28
-- If underflowing: increase spacer heights, or increase font-size by 0.5pt steps
-- Repeat until content touches the bottom footer with zero white space
-
-### Phase 5.10 — Match Score Calculation (PM-SYNC-30)
-
-Score the resume against the JD schema:
-
-- +10 pts for each JD-required keyword present in the resume
-- +5 pts for each matching metric type (e.g., JD mentions "TRT", resume mentions "TRT")
+- +10 pts per JD keyword present in resume
+- +5 pts per matching metric type
 - +5 pts if all 4 tagbar slots map to JD signals
-- -10 pts for each JD-required skill with zero coverage
-- Cap at 100. Initial score often 55–70%. Target: ≥90%.
+- -10 pts per unresolved gap (from Epic 5)
+- Cap at 100. Target: ≥90/100.
 
-### Phase 5.11 — GitHub Push (PM-SYNC-31)
+### Phase 6.10 — GitHub Push + README Update
 
 ```bash
 git add Sync/<Company>/<Role>/
-git commit -m "feat: add resume for <Company> - <Role>"
+git commit -m "feat: add resume for <Company> - <Role> (score: XX/100)"
 git push
 ```
+
+Auto-update `README.md` dashboard table with new row.
 
 Create `Sync/<Company>/<Role>/application_details.md`:
 
 ```markdown
 # Application: <Company> — <Role>
 
-## Match Score: XX/100
+## Match Score: XX/100 | Application Strength: XX/100
 
 **Target: ≥90/100**
 
-## GitHub Pages Link
+## GitHub Pages Live Link
 
 https://<username>.github.io/<repo>/Sync/<Company>/<Role>/resume.html
 
 ## Key JD Requirements
 
-1. ...
-2. ...
+| Requirement    | Coverage   | Confidence |
+| -------------- | ---------- | ---------- |
+| AI/ML          | ✅ Strong  | High       |
+| Search Ranking | ⚠️ Partial | Medium     |
+| Voice UI       | ❌ Missing | —          |
 
 ## Full Job Description
 
 <paste JD here>
 ```
 
-### Phase 5.12 — Recruiter Artifacts (PM-SYNC-32)
+### Phase 6.11 — Recruiter Artifacts
 
-**Recruiter InMail (≤300 words):**
-
-```
-Hi [Recruiter Name],
-
-I came across the [Role] opening at [Company] and I'm genuinely excited about the alignment.
-
-I've spent [X] years at [companies like Amex/Sprinklr], where I [1 SHARP credential].
-
-For [Company], specifically, I believe I can [direct alignment to Company's JD signal].
-
-I've attached my tailored resume: [GitHub Pages Link]
-
-Would love to connect for a quick 15-minute call.
-
-[Name]
-```
-
-**LinkedIn Connect Message (≤300 characters):**
+**InMail (≤300 words):**
 
 ```
-Hi [Name], I'm applying to [Role] at [Company]. My work on [1 crisp signal from JD] aligns directly. Would love to connect and learn more about the team. [Link]
+Hi [Name],
+I came across the [Role] at [Company] and the alignment with my background feels very direct.
+I've spent [X years] at [Companies], where I [1 sharp XYZ credential relevant to this JD].
+For [Company] specifically, I see a direct fit: [1 sentence connecting your strongest signal to their JD].
+My tailored resume is live here: [GitHub Pages Link]
+Would love to connect for 15 minutes.
+[Your Name]
+```
+
+**LinkedIn Connect (≤300 characters HARD LIMIT):**
+
+```
+Hi [Name], applying to [Role] at [Company]. My [1 crisp signal] aligns directly. [GitHub Pages link]. Would love to connect!
 ```
 
 ---
 
-## PHASE 6: LOOP CONTROL
+## EPIC 7: Loop Control + Session Exit
 
-After completing Phases 5.1–5.12 for one row:
+After completing Phases 6.1–6.11 for one row:
 
-- Mark `PM-SYNC-20` subtasks closed in bd
-- Prompt: "✅ [Company] - [Role] complete. Match Score: XX/100. Ready for next application? (yes/no)"
-- If yes: move to next CSV row, re-start Phase 4.2 with fresh JD
-- If no: save state, run `bd sync`, `git push`, and exit
+- Mark all subtasks closed in `bd`
+- Run `bd sync`
+- Prompt: "✅ [Company] - [Role] done. Score: XX/100. Next application? (yes/no)"
+- If yes → next CSV row, restart from Epic 4.1
+- If no → `git push`, save state, exit
 
 ---
 
-## PHASE 7: FUTURE ARTIFACTS (Later Phases)
-
-These are queued for development after Phase 1 MVP is stable:
+## EPIC 8: Future Artifacts (Queued for Later)
 
 | Artifact                                    | Status                |
 | ------------------------------------------- | --------------------- |
-| "Why Me" Slide Deck (frontend Claude skill) | PM-SYNC-41 — Queued   |
-| LinkedIn narrative update                   | Roadmap (3-6 months)  |
-| Interview simulation engine                 | Roadmap (6-12 months) |
-| SaaS hosted version                         | Roadmap (12+ months)  |
+| "Why Me" Slide Deck (Claude frontend skill) | Queued                |
+| LinkedIn narrative engine                   | Roadmap (3–6 months)  |
+| Interview simulation (voice-based)          | Roadmap (6–12 months) |
+| Hosted SaaS version                         | Roadmap (12+ months)  |
 
 ---
 
-## CONSTRAINTS & GUARDRAILS (Always Active)
+## GUARDRAILS (Always Active — Every Session)
 
-1. **Never fabricate metrics** — only use verified numbers from signal pool or user interview
-2. **`Base_Template.html` is immutable** — only editable via `/edit-template` workflow (requires explicit user confirmation + versioned backup)
-3. **Max 10 `&nbsp;`** for micro text gap adjustment — rephrase for major gaps
-4. **Date column `.c5` ≥ 14.5% always** — never reduce below this
-5. **`white-space: nowrap` on all date cells** — absolute rule
-6. **82-92 char target per bullet** — validate with char count script
-7. **1 page only** — hard stop, no exceptions
-8. **XYZ formula for every bullet** — Accomplished X measured by Y by doing Z
-9. **Border color: `#000000` only** — no gray borders
-10. **Sub-header: pipe approach** — no heavy dark backgrounds
+| #   | Rule                                                                    |
+| --- | ----------------------------------------------------------------------- |
+| 1   | Never fabricate metrics — verified signal pool or user interview only   |
+| 2   | `Base_Template.html` is immutable — only `/edit-template` can change it |
+| 3   | Max 10 `&nbsp;` for micro text gaps — rephrase for major gaps           |
+| 4   | Date column `.c5 ≥ 14.5%` — never reduce below this                     |
+| 5   | `white-space: nowrap` on all date cells — absolute                      |
+| 6   | 82–92 char target per bullet — validate with char count                 |
+| 7   | 1 page only — hard stop, no exceptions                                  |
+| 8   | XYZ formula on every bullet — Accomplished X measured by Y by doing Z   |
+| 9   | Border color: `#000000` only — no gray borders                          |
+| 10  | Sub-header: pipe approach — no heavy dark backgrounds                   |
+| 11  | ChromaDB confirmation gate before each chunk insert                     |
+| 12  | ≥90% Confidence Score required before Epic 6 starts                     |
+| 13  | Gap penalties propagate directly to Application Strength Score          |
+| 14  | README.md is auto-updated after every new GitHub push                   |
+| 15  | New signals from gap interviews must be saved to Obsidian + ChromaDB    |
