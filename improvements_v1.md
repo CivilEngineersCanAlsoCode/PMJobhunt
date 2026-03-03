@@ -29,6 +29,58 @@ The formula assumes 6.5" Calibri 10pt margins. Our template uses 9pt Segoe UI, A
 | 2   | **Per-template calibration.** Render one test bullet manually on template creation. Count visible chars. Hard-code result as `<!-- BULLET_CHAR_LIMIT: 96 -->` comment.                  |
 | 3   | **Visual overflow detection.** Set `white-space: nowrap` and check `scrollWidth > clientWidth`. Browser-native, font-agnostic, no char target needed.                                   |
 
+#### 🛠️ Implementation: The 4-Phase Character Budget Technique
+
+> Applied to our specific layout: `.c4` = 28.2% of A4 width → target **38–44 characters per bullet** at 9–10pt.
+
+**Phase 1 — The 95% Rule (Manual Rephrasing)**
+Rewrite bullets until they visually reach ~95% of the line width, leaving 1–3 chars of air.
+
+| Goal                  | Technique                         | Example                                                 |
+| --------------------- | --------------------------------- | ------------------------------------------------------- |
+| Expand a short bullet | Swap weak verbs for stronger ones | `"Led"` → `"Spearheaded"` / `"Orchestrated"`            |
+| Expand a short bullet | Add context words                 | `"Reduced TRT 50%"` → `"Reduced end-to-end TRT by 50%"` |
+| Shrink a long bullet  | Compress units to symbols         | `"percent"` → `"%"`, `"dollars"` → `"$"`                |
+| Shrink a long bullet  | Remove filler words               | `"Led the launch of..."` → `"Launched..."`              |
+
+**Phase 2 — The 5% Auto-Snap (CSS Justification)**
+Once text is at 95% width, apply this CSS to snap the last word flush to the right margin:
+
+```css
+.dsc li {
+  text-align: justify;
+  text-align-last: justify; /* Distributes remaining air invisibly between words */
+  white-space: nowrap; /* Hard guard: never allows a 2nd line */
+}
+```
+
+`text-align-last: justify` distributes the remaining whitespace equally between words. Since text is already 95% there, the gaps are invisible — creating a solid horizontal block.
+
+**Phase 3 — The Metric Padding Trick (`&nbsp;`)**
+For bullets that are still too short after Phase 1+2, add non-breaking spaces around key numbers:
+
+```html
+<!-- Too short (32 chars): -->
+<li>Reduced TRT 50% using GenAI</li>
+
+<!-- Perfect (42 chars): -->
+<li>
+  Reduced&nbsp;&nbsp;TRT&nbsp;&nbsp;<b>50%</b>&nbsp;&nbsp;via Agentic GenAI
+</li>
+```
+
+`&nbsp;` counts as a character and prevents line breaks — it manually pushes words toward the right margin. **Max 10 `&nbsp;` total per bullet** (more than this = rephrase instead).
+
+**Phase 4 — Master Bullet Calibration (Find Your True Char Limit)**
+Don't use a generic char count — calibrate to your actual template:
+
+1. Find the one bullet in your resume that looks **visually perfect** (touches but doesn't overflow)
+2. Copy it into a character counter — record the count (e.g., 42 chars)
+3. Set your budget: every other bullet in that column must be **between 40 and 44 chars**
+4. Store the result as a comment in `Base_Template.html`: `<!-- BULLET_CHAR_LIMIT: 42 -->`
+
+**Bonus: Use `<b>` tags strategically.** Bold glyphs in Calibri/Segoe UI are ~8% wider than regular. Bolding your metric number (`<b>50%</b>`) quietly adds 1–2px of width per character — a zero-word way to nudge a 40-char bullet toward 42.
+
 ---
 
 ### Gap 3: HTML-to-PDF Rendering is Non-Deterministic
