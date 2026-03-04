@@ -1,9 +1,0 @@
-{
-    "url": "https://cdn.careers.microsoft.com/aem/asset-manifest.json",
-    "data": {
-        "main.js": "main.053732cfc6c5fdffd58d.js",
-        "polyfills-dom.js": "1.main.053732cfc6c5fdffd58d.js",
-        "vendors~polyfills-core-js.js": "2.main.053732cfc6c5fdffd58d.js",
-        "3.main.053732cfc6c5fdffd58d.js": "3.main.053732cfc6c5fdffd58d.js"
-    }
-}
