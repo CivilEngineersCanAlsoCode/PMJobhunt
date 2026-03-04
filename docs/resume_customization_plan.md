@@ -951,6 +951,30 @@ GitHub Actions serves as the engine that keeps the Sync platform "alive" without
 
 All scripts in `core_engine/` must use `os.path.dirname(os.path.abspath(__file__))` to resolve paths relative to the repository root, ensuring they run identically on Mac (local) and Ubuntu (GitHub).
 
+### Step 7.5 — Real-Life User Journeys
+
+#### **Case 1: Data-Driven Evolution (The "New Application" Loop)**
+
+- **Situation:** You find a "GenAI PM" role at Google.
+- **Action:** You update `data/final_job_batch.csv` with the new JD.
+- **Automation:** GitHub Actions notices the change → Runs Python engine specifically for the new row → Generates `Sync/Google/GenAI_PM/resume.html` → Updates the Dashboard.
+- **Result:** You get a live link to send to the recruiter without touching your terminal.
+
+#### **Case 2: Design-Driven Evolution (The "Brand Update")**
+
+- **Situation:** You decide that "Inter" font looks better than "Calibri".
+- **Action:** You edit `templates/CV Format.html`.
+- **Automation:** GitHub Actions triggers → Re-runs the build for **all** your current applications (Google, Amazon, etc.) using the new font.
+- **Result:** All your live links are instantly updated with the current design, ensuring brand consistency across all active applications.
+
+### Step 7.6 — Scraper Architecture & Safety (Anti-Ban)
+
+The system uses a **Hybrid Scraper Logic** to manage the trade-off between effort and safety.
+
+1.  **Discovery (Automated Cron):** Runs daily on GitHub Actions to find _links_ to new job postings. Use for open, non-auth portals.
+2.  **Extraction (Manual Stealth Mode):** For high-risk portals (FAANG/Workday), use `manual_capture.py` locally. You browse normally; the script "ghosts" your network traffic to extract the JD.
+3.  **The Effort Factor:** Even if extraction is manual, the **Discovery** is automated. You only spend effort on jobs that actually matter, while the system keeps the pipeline full in the background.
+
 ---
 
 ## EPIC 8: Future Artifacts (Queued for Later)
