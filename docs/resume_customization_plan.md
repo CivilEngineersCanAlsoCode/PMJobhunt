@@ -919,7 +919,11 @@ After completing Phases 6.1–6.11 for one row:
 
 ---
 
-## EPIC 7: Continuous Automation (GitHub Actions) ⭐ NEW
+## ROADMAP: Release 2 (Post-Launch Automation) ⭐ DEPRIORITIZED
+
+The following epics are deferred to Release 2 to focus on core platform stability first.
+
+## EPIC 7: Continuous Automation (GitHub Actions)
 
 GitHub Actions serves as the engine that keeps the Sync platform "alive" without manual intervention.
 
