@@ -1030,6 +1030,36 @@ It's important to understand that GitHub is just the "executor". The intelligenc
 | **Continuous Execution** | GitHub Actions | Once the scripts are pushed, GitHub runs them daily at 4 AM automatically.             |
 | **Manual Fail-safe**     | User           | You run `manual_capture.py` for "Danger" portals when you browse them locally.         |
 
+### Step 7.12 — Automation Folder Structure
+
+All automation-related files are organized to be easily accessible yet isolated from the core resume engine.
+
+```
+/                              ← repo root
+├── .github/workflows/         ← Orchestrator (YAML files)
+│   ├── resume-generation.yml
+│   ├── deploy-portfolio.yml
+│   └── job-scraper-cron.yml
+└── automation/                ← Automation Logic
+    ├── scrapers/              ← Portal-specific scripts
+    │   ├── google_careers.py
+    │   ├── startup_india.py
+    │   └── ycombinator.py
+    └── utils/                 ← Shared tools
+        ├── stealth_config.py  ← Anti-ban headers
+        └── csv_handler.py     ← Unifying output to data/
+```
+
+### Step 7.13 — Collaborative Development (Antigravity + User)
+
+You do **not** need to sit with me to write these scripts. Here is how we build new automation together:
+
+1.  **Request:** You say: "Bhai, YCombinator Jobs ko automate karo."
+2.  **Research (Me):** I analyze their site structure, check if it's "Safe" or "Danger" zone.
+3.  **Implementation (Me):** I write the script and save it to `automation/scrapers/`.
+4.  **Testing (Me):** I run a test build in GitHub Actions.
+5.  **Review (You):** You just check `data/ycombinator_jobs.csv` to see if the data looks correct.
+
 ---
 
 ## EPIC 8: Future Artifacts (Queued for Later)
