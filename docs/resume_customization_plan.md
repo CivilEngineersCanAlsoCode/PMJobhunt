@@ -975,6 +975,20 @@ The system uses a **Hybrid Scraper Logic** to manage the trade-off between effor
 2.  **Extraction (Manual Stealth Mode):** For high-risk portals (FAANG/Workday), use `manual_capture.py` locally. You browse normally; the script "ghosts" your network traffic to extract the JD.
 3.  **The Effort Factor:** Even if extraction is manual, the **Discovery** is automated. You only spend effort on jobs that actually matter, while the system keeps the pipeline full in the background.
 
+### Step 7.7 — Cloud Execution vs. Local Machine
+
+- **The "Laptop Off" Scenario:** GitHub Actions runs on **GitHub's Ubuntu servers**, not your laptop. Even if your laptop is closed or off at 4 AM, the scraper will still run, find jobs, and commit them to your repository.
+- **No Visible Browser:** The scraper runs in "headless" mode on the cloud. You won't see any browser windows opening.
+
+### Step 7.8 — The "Input Queue" & User Involvement
+
+- **Discovery != Resume:** The automated scraper does **not** create a resume immediately. It ONLY updates a "Scraped Jobs" file in your `data/` folder.
+- **Process Flow:**
+  1.  **System (4 AM):** Finds a job, adds it to the queue.
+  2.  **User (Anytime):** You open the repo, see the new job, and decide to apply.
+  3.  **User (Command):** You run `/activate-sync`. Antigravity then picks up the job, calculates confidence, and asks you the necessary **Gap Interview** questions.
+- **Notifications:** If the scraper finds jobs or the build fails, GitHub sends an email notification to your registered address. You can also see the "New Commit" badge on your GitHub app/site.
+
 ---
 
 ## EPIC 8: Future Artifacts (Queued for Later)
