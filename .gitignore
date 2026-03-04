@@ -1,9 +1,10 @@
 # ── Personal data / runtime outputs ──────────────────────────────────────────
 # These are never committed to the dev (distributable) branch.
+.personal_backup/
 
-# Browser profiles
-scraper_profile/
-user_data/
+# Browser profiles and dependencies
+.scraper_profile/
+node_modules/
 
 # Scraped session data
 data/raw_network/
@@ -31,8 +32,6 @@ plans for finding jobs/
 target companies list/
 target platforms/
 portal scraping/
-_archive/
-
 # Python / system artifacts
 __pycache__/
 *.pyc

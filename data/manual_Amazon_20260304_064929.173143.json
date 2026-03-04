@@ -1,7 +1,0 @@
-{
-    "url": "https://www.amazon.jobs/api/v1/recommendations/homepage_jobs",
-    "data": {
-        "recommended_jobs": [],
-        "recommendation_id": "f167f9cf-f7bb-40cf-bf3c-f7978e7bfed8"
-    }
-}
