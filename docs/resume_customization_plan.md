@@ -1018,6 +1018,18 @@ For "Safe Zone" portals, the system uses two primary technologies:
 > [!NOTE]
 > All automated scrapers only read **publicly available data**. They never attempt to bypass captchas or "brute force" sites, which is why the "Safe Zone" approach is sustainable.
 
+### Step 7.11 — Ownership & Governance (Who does what?)
+
+It's important to understand that GitHub is just the "executor". The intelligence and research are handled by the **User + Antigravity** team.
+
+| Task                     | Responsible    | How it happens                                                                         |
+| :----------------------- | :------------- | :------------------------------------------------------------------------------------- |
+| **Portal Discovery**     | Antigravity    | I research which companies use standard (Safe) or custom (Danger) portals.             |
+| **Categorization**       | Antigravity    | I classify portals as "Safe" or "Danger" based on public access vs login requirements. |
+| **Script Development**   | Antigravity    | I write the Python or Playwright scripts and save them to your repository.             |
+| **Continuous Execution** | GitHub Actions | Once the scripts are pushed, GitHub runs them daily at 4 AM automatically.             |
+| **Manual Fail-safe**     | User           | You run `manual_capture.py` for "Danger" portals when you browse them locally.         |
+
 ---
 
 ## EPIC 8: Future Artifacts (Queued for Later)
