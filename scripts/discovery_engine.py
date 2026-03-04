@@ -10,7 +10,34 @@ USER_DATA_DIR = os.path.join(os.path.abspath(os.path.dirname(__file__)), "..", "
 os.makedirs(USER_DATA_DIR, exist_ok=True)
 
 DATA_DIR = "/Users/satvikjain/Downloads/PM/data"
+KB_FILE = "/Users/satvikjain/Downloads/PM/research documents/Scraping_Career_Portals_Analysis.md"
 os.makedirs(DATA_DIR, exist_ok=True)
+
+class KnowledgeHub:
+    """Manages the long-term memory in the research markdown file."""
+    def __init__(self, path=KB_FILE):
+        self.path = path
+        self.content = self._load()
+
+    def _load(self):
+        if not os.path.exists(self.path): return ""
+        with open(self.path, "r") as f: return f.read()
+
+    def get_system_patterns(self, system_name):
+        # Naive extraction of pattern block
+        if system_name.lower() in self.content.lower():
+            print(f"[KB] Matches found for '{system_name}' in Knowledge Base.")
+            return True
+        return False
+
+    def log_learning(self, company, error, solution):
+        timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        entry = f"\n### [{company}] Learning Case ({timestamp})\n"
+        entry += f"- **Error**: {error}\n"
+        entry += f"- **Solution**: {solution}\n"
+        with open(self.path, "a") as f:
+            f.write(entry)
+        print(f"[KB] New learning logged for {company}.")
 
 class DiscoveryObserver:
     def __init__(self, company_name):
@@ -18,6 +45,8 @@ class DiscoveryObserver:
         self.interactions = []
         self.api_responses = []
         self.patterns = {}
+        self.kb = KnowledgeHub()
+        self.detected_system = "Unknown"
         self.behavior_file = os.path.join(DATA_DIR, f"{company_name}_behavior.json")
 
     async def log_click(self, selector, url):
@@ -76,6 +105,10 @@ async def handle_response(response, observer):
         try:
             url = response.url
             if any(k in url.lower() for k in ["jobs", "search", "career", "postings", "api"]):
+                # Detect system by API fingerprints
+                if "/api/pcsx/" in url or "eightfold" in url:
+                    observer.detected_system = "Eightfold"
+                
                 data = await response.json()
                 timestamp = datetime.now().strftime("%Y%m%d_%H%M%S.%f")
                 filename = f"discovery_{observer.company_name}_{timestamp}.json"
@@ -126,6 +159,16 @@ async def run_discovery(company, url):
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("--company", required=True)
-    parser.add_argument("--url", required=True)
+    parser.add_argument("--url", help="URL to discover")
+    parser.add_argument("--log-error", help="Manual error found during a run")
+    parser.add_argument("--solution", help="Solution found for the logged error")
     args = parser.parse_args()
-    asyncio.run(run_discovery(args.company, args.url))
+    
+    if args.log_error and args.solution:
+        hub = KnowledgeHub()
+        hub.log_learning(args.company, args.log_error, args.solution)
+        print("[+] Learning cycle complete. KB updated.")
+    elif args.url:
+        asyncio.run(run_discovery(args.company, args.url))
+    else:
+        print("[!] Error: Either provide --url for discovery or --log-error/--solution for learning.")

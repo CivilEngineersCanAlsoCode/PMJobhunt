@@ -6,6 +6,15 @@ import re
 from datetime import datetime
 from playwright.async_api import async_playwright
 
+# -----------------------------------------------------------------------------
+# KNOWLEDGE BASE REFERENCE: research documents/Scraping_Career_Portals_Analysis.md
+# SYSTEM IDENTIFIED: Eightfold.ai (Microsoft flavor)
+# STRATEGY: 
+#   1. Pre-scroll to trigger lazy loading.
+#   2. Use cardContainer/card-F1ebU classes for high-fidelity selection.
+#   3. Handle 'detached DOM' errors during Virtual Scroll iteration.
+# -----------------------------------------------------------------------------
+
 # Configuration
 USER_DATA_DIR = os.path.join(os.path.abspath(os.path.dirname(__file__)), "..", "scraper_profile")
 DATA_DIR = "/Users/satvikjain/Downloads/PM/data"
