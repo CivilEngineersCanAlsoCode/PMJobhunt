@@ -58,8 +58,11 @@ bd create "Connect GitHub account and configure target repository" -t task -p 0
 bd create "Push blank template to GitHub and init Sync folder structure" -t task -p 0
 # Note as T05
 
-bd create "Sync Platform: JD Input and Batch Loop Setup" -t epic -p 0
+bd create "Sync Platform: JD Input and Data Acquisition" -t epic -p 0
 # Note as EPIC_B
+
+bd create "Step 4.0: Dynamic Career Portal Scraper (Optional)" -t task -p 0
+# Note as T10 - Hybrid data collection mode
 
 bd create "Read input CSV (Company, Website, JD)" -t task -p 0
 # Note as T11
@@ -247,11 +250,12 @@ If `Input/job_batch.csv` exists and has unprocessed rows, begin the loop:
 
 For each CSV row:
 
-1. Parse JD → Phase 4.2 (PM-SYNC-12)
-2. Query ChromaDB → Phase 4.3 (PM-SYNC-13)
-3. Run Phases 5.1 through 5.12 sequentially with atomic bd task tracking
-4. Push to GitHub and generate recruiter artifacts
-5. Prompt user for next application or exit
+1. Data Acquisition (Step 4.0) → Choose Manual CSV or Dynamic Scrape
+2. Parse JD → Phase 4.2 (PM-SYNC-12)
+3. Query ChromaDB → Phase 4.3 (PM-SYNC-13)
+4. Run Phases 5.1 through 5.12 sequentially with atomic bd task tracking
+5. Push to GitHub and generate recruiter artifacts
+6. Prompt user for next application or exit
 
 ---
 
