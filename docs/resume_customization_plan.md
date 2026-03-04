@@ -989,6 +989,19 @@ The system uses a **Hybrid Scraper Logic** to manage the trade-off between effor
   3.  **User (Command):** You run `/activate-sync`. Antigravity then picks up the job, calculates confidence, and asks you the necessary **Gap Interview** questions.
 - **Notifications:** If the scraper finds jobs or the build fails, GitHub sends an email notification to your registered address. You can also see the "New Commit" badge on your GitHub app/site.
 
+### Step 7.9 — Risk Isolation & Anti-Ban Guardrails
+
+To ensure your personal accounts (LinkedIn, Google, Amazon) are **100% safe**, the system follows these isolation rules:
+
+1.  **Identity Separation:** GitHub Actions runs anonymously. It does **not** use your cookies, session tokens, or login credentials. Even if a portal detects "automated traffic", they are banning a generic GitHub server IP, **not you.**
+2.  **Public Zone Only (Cloud):** The automated scraper ONLY targets public URLs that don't require login.
+    - _Safe:_ Google Jobs, Startup job boards, Public career pages.
+    - _Danger:_ LinkedIn (Logged in), Amazon (Internal portal), Workday (with login).
+3.  **The "Manual Capture" Fail-Safe:** For any portal in the "Danger" zone, automation is **disabled** by design. The system will skip these and wait for you to use `manual_capture.py` locally on your own machine, which is indistinguishable from normal browsing.
+
+> [!WARNING]
+> Never try to "hardcode" your personal session cookies into a GitHub Action. This is the only way an automated scraper could lead to a personal account ban. Stay within the provided "Hybrid" framework to keep your search safe and clean.
+
 ---
 
 ## EPIC 8: Future Artifacts (Queued for Later)
