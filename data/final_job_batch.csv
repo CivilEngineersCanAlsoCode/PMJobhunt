@@ -1,29 +1,8 @@
 Company,Job Title,Job ID,Location,Description,Apply Link
-Google,"Product Manager, YouTube Live Living Room",85393000904958662,"Bengaluru, India","Support Product Requirement Documents (PRDs) by collaborating with partner teams (e.g., engineers, Program Managers (PgMs), User Experience (UX)) during product design and development to implement the requirements.
-Define product roadmaps by operationalizing defined strategy.
-Articulate defined product goals in a way that captures attention and compels others to drive action despite obstacles and competing priorities.
-Validate the market size and opportunity (e.g., user-based, opportunity, business). Identify opportunities in the market landscape.
-Facilitate launches, maintenance, and retirement in collaboration with other cross-functional teams and stakeholders.",https://www.google.com/about/careers/applications/signin?jobId=CiUAL2FckRMrIKE67mXe9rmhCcl_DPIPrOWcQrnvpOmDxmZND97hEjsAvkGZm-Tqu4x5pgLo886HOJpHbbq1H7mWXuOkiEfF4JykmSAINHrcKSibCXwXLdVZyOqSjxh3F-Vn6Q%3D%3D_V2&loc=IN&title=Product+Manager
-Google,"Product Manager, Studio, Foundations, YouTube",139227259159356102,"Bengaluru, India","Articulate defined product goals in a way that captures attention and compels others to drive action despite obstacles and engaging priorities. 
-Seek a technical Product Manager to lead the YouTube Creator Data Platform (CDP), a foundational initiative at the heart of our creator ecosystem.
-Own the strategy, roadmap, and execution for a platform that powers seamless, secure, and personalized features for millions of YouTube creators.
-Work cross-functionally with engineering, data science, and operations to build scalable infrastructure, drive data-driven personalization, enhance problem-solving and predictability, and ensure governance.
-Track record of shipping complex technical products, and the ability to translate intricate data challenges into elegant solutions that empower both our creators and our support agents.",https://www.google.com/about/careers/applications/signin?jobId=CiUAL2FckR7NOzTFFC5IzjvtG5ZjaLw5IMI6CdYVNXzG3aRCId8bEjsAvkGZm8uiAsigfr4I5CDYtAQ8jnK9CJ2yylSkYKiphUwPXRjARN9hPxLuxv4YohMBF1xv6dJPyGlAeA%3D%3D_V2&loc=IN&title=Product+Manager
 Google,"Product Manager, Studio, GenAI, YouTube",84297444942062278,"Bengaluru, India","Redefine the speed of innovation by turning the vibe coding dream into a functional reality. 
 Build an AI-native prototyping engine that doesn't just generate static mockups, but creates fully functional, data-ready prototypes in a single day.
 Architect a system where GenAI can securely access real creator data and inherit YouTube’s visual language by default, you will enable teams to bypass months of backend development.
 Move beyond simulated demos to putting real, working tools into the hands of creators for immediate, high-fidelity testing, ensuring we build only what guide value.",https://www.google.com/about/careers/applications/signin?jobId=CiUAL2Fckbo3DVuqMGvv5d-nzd4cPCKQ2wa40_m30lphtB6iPcfFEjsAvkGZmyF_wrURsyHO9zGLnbvQ1_hx-Tzz5oQaFSfzA0zurHGZAuUwWII96Ae9Tya7CnJqmKcTgqtJIA%3D%3D_V2&loc=IN&title=Product+Manager
-Microsoft,Principal AI Architect,1970393556621120,"India, Telangana, Hyderabad","Overview
-Azure Compute is the backbone of Microsoft’s cloud infrastructure, orchestrating customer scenarios across millions of servers in data centers worldwide. This global infrastructure is transformed into flexible, reliable, and scalable compute capacity—enabling organizations of all sizes to innovate and succeed in the cloud. As part of Azure Core Compute, you will contribute to the platform that powers every application running on Azure.Your work may include enabling elastic compute, optimizing performance, and ensuring reliability at scale. This role offers the opportunity to shape the future of cloud computing and deliver solutions that redefine what is possible for customers.We are seeking Principal AI Architect in Azure, a leader passionate and championing leveraging AI to elevate quality and security across Azure Core Engineering teams. This role drives development and adoption of AI-powered solutions for risk-based testing, automated quality gates, and intelligent validation through platforms like AzBoQ, ALFA, AzQualify and AzCertify. The ideal candidate combines deep technical expertise with a vision for integrating AI into DevSecOps, validation pipelines, and security operations, ensuring resilient, high-quality releases to Azure customers.Microsoft’s mission is to empower every person and every organization on the planet to achieve more. As employees we come together with a growth mindset, innovate to empower others, and collaborate to realize our shared goals. Each day we build on our values of respect, integrity, and accountability to create a culture of inclusion where everyone can thrive at work and beyond.
-
-Responsibilities
-- Design and build resilient, scalable systems that enhance the reliability and availability of the Azure platform.- Apply distributed systems principles to solve complex engineering challenges with simplicity and clarity.- Collaborate across teams and disciplines to deliver end-to-end solutions that meet the evolving needs of our customers.- Develop and maintain automation for monitoring, failover, and recovery processes.- Participate in on-call rotations, lead incident response, and drive root cause analysis
-
-Qualifications
-Required Qualifications  - Bachelor's Degree in Computer Science or related technical field AND 12+ years technical engineering experience with coding in languages including, but not limited to, C, C++, C#, Java, JavaScript, or Python  - OR equivalent experience. - 1+ years experience in building, shipping, and operating reliable, distributed systems software.- 1+ years experience developing software hosted in Azure, AWS, or other Cloud platforms.- 1+ years experience in problem solving and debugging skills.Other Requirements - Ability to meet Microsoft, customer and/or government security screening requirements are required for this role. These requirements include, but are not limited to the following specialized security screenings: - Microsoft Cloud Background Check: This position will be required to pass the Microsoft Cloud Background Check upon hire/transfer and every two years thereafter.  Additional Qualifications - Bachelor's Degree in Computer Science - OR related technical field AND 12+ years technical engineering experience with coding in languages including, but not limited to, C, C++, C#, Java, JavaScript, OR Python  - OR Master's Degree in Computer Science or related technical field AND 8+ years technical engineering experience with coding in languages including, but not limited to, C, C++, C#, Java, JavaScript, or Python OR equivalent experience. #azurecorejobs 
-This position will be open for a minimum of 5 days, with applications accepted on an ongoing basis until the position is filled.
-
-Microsoft is an equal opportunity employer. All qualified applicants will receive consideration for employment without regard to age, ancestry, citizenship, color, family or medical care leave, gender identity or expression, genetic information, immigration status, marital status, medical condition, national origin, physical or mental disability, political affiliation, protected veteran or military status, race, ethnicity, religion, sex (including pregnancy), sexual orientation, or any other characteristic protected by applicable local laws, regulations and ordinances. If you need assistance with religious accommodations and/or a reasonable accommodation due to a disability during the application process, read more about requesting accommodations.",https://apply.careers.microsoft.com/careers/job/1970393556621120
 Microsoft,Senior Product Manager - Copilot Analytics Platform,1970393556623168,"India, Karnataka, Bangalore","Overview
 AI is transforming the way organizations work, and the foundation of that transformation is data. The Copilot Analytics team empowers leaders to understand and accelerate the adoption and impact of Microsoft Copilot and AI agents and at the core of that experience lies a world-class data platform.    We’re looking for a Senior Product Manager to lead the realization of aunified data services foundation, which will serve as acritical component of the dataplatform that powers Microsoft365, Copilot,and Viva experiences. This role will define/specify how data is unified, scaled, and served to deliver insights securely, reliably, and at massive scale across Microsoft 365.    You’ll partner closely with engineering, data science, and partner product teams to shape the data strategy, architecture, and data quality that enable new analyticsexperiencesand AI-conversational scenarios. This is a highly technical, cross-functional, and strategic role - ideal for someone passionate about building foundational platforms that power intelligence at scale.    This role is a unique opportunity to:  - Define the data strategy and architecture behind one of Microsoft’s most strategic AI analytics offerings.  - Build the unified data services layer that supports Copilot adoption, usage, and impact insights.  - Drive innovation and quality across data pipelines, platform scalability, governance, and performance.  - Collaborate with partner teams across Viva, Microsoft 365, and AI engineering to align data models and investments.     If you love solving hard data problems, scaling complex systems, and influencing across product and engineering boundaries, this is where you can make an outsized impact.    Microsoft’s mission is to empower every person and every organization on the planet to achieve more. As employees we come together with a growth mindset, innovate to empower others, and collaborate to realize our shared goals. Each day we build on our values of respect, integrity, and accountability to create a culture of inclusion where everyone can thrive at work and beyond. 
 
@@ -35,57 +14,6 @@ Required Qualifications: - Bachelor's Degree AND 5+ years experience in product/
 This position will be open for a minimum of 5 days, with applications accepted on an ongoing basis until the position is filled.
 
 Microsoft is an equal opportunity employer. All qualified applicants will receive consideration for employment without regard to age, ancestry, citizenship, color, family or medical care leave, gender identity or expression, genetic information, immigration status, marital status, medical condition, national origin, physical or mental disability, political affiliation, protected veteran or military status, race, ethnicity, religion, sex (including pregnancy), sexual orientation, or any other characteristic protected by applicable local laws, regulations and ordinances. If you need assistance with religious accommodations and/or a reasonable accommodation due to a disability during the application process, read more about requesting accommodations.",https://apply.careers.microsoft.com/careers/job/1970393556623168
-Microsoft,Principal Security CE Eng. Manager,1970393556657136,"India, Karnataka, Bangalore","Overview
-Microsoft’s cloud business is experiencing unprecedented growth. As organizations accelerate their digital transformation, they depend on Microsoft Security cloud services to safeguard data, protect identities, and manage devices at scale.
-
-The Security Care team, part of the Customer Experience Engineering (CxE) organization within Microsoft Security, is dedicated to enhancing the customer support experience. We achieve this by managing complex escalations and driving resolution for critical issues. As our team expands, we are seeking an additional manager who is passionate about delivering exceptional customer support and developing a high-performing team of technically skilled engineers.
-
-In this role, you will lead a geographically distributed team across EMEA and APAC. You thrive in creating clarity amid complexity and are motivated by enabling customer success. If you excel at managing hybrid teams and fostering collaboration across geographies, this opportunity is for you.
-
-The ideal candidate has extensive experience leading complex, high-stakes customer engagements. They’ve demonstrated situational leadership, negotiation skills, and the ability to communicate complex technical information clearly. They use data-driven decision-making, thrive in ambiguity, and quickly acquire new skills.
-
-Microsoft’s mission is to empower every person and every organization on the planet to achieve more. As employees we come together with a growth mindset, innovate to empower others, and collaborate to realize our shared goals. Each day we build on our values of respect, integrity, and accountability to create a culture of inclusion where everyone can thrive at work and beyond. 
-
-In alignment with our Microsoft values, we are committed to cultivating an inclusive work environment for all employees to positively impact our culture every day.
-
-Responsibilities
-Leadership & People Management: Lead, coach, and develop a geographically distributed team of technically strong engineers (across EMEA/APAC).
-Build a motivated, high‑impact team focused on deep technical problem‑solving and high‑quality customer engagement.
-Drive clarity, consistency, and accountability across the team.
-
-Customer Escalation Ownership: Oversee the handling of escalations originating from CSS and internal partners.
-Ensure strong case hygiene, timely responses, and structured technical investigations.
-Engage on complex or critical customer situations, especially those requiring senior technical judgment.
-
-Cross‑Functional Partnership: Partner closely with CSS support organizations to ensure customers receive the right level of help quickly.
-Collaborate with product engineering teams to influence product fixes, improve supportability, and advocate for customer needs.
-Represent escalations to internal leadership when issues carry significant business risk or customer impact.
-
-Operational Excellence & Continuous Improvement: Drive engineering and support process improvements within CxE and across the broader Microsoft Security organization.
-Communicate project risks, escalations, progress, and accomplishments clearly to stakeholders.
-Identify trends, root causes, and opportunity areas to improve support tools, processes, and customer experience.
-
-Qualifications
-Bachelor's Degree in Engineering, Computer Science, Information Technology (IT), Data Analytics/Science, Artificial Intelligence (AI), or related field AND 6+ years experience in technology industry, cloud, technical support, and/or customer experience engineering OR equivalent experience.
-1+ year(s) of customer facing experience.
-
-Deep knowledge of Microsoft Security products (e.g., Entra, Intune, Purview, Defender).
-Strong problem-solving skills with ability to look beyond the immediate issue and assess customer impact.
-
-Proven ability to manage critical escalations in high-pressure environments.
-Hands-on experience with identity ecosystems and enterprise integrations (e.g., Okta, Microsoft identity stack).
-
-Effective communication and collaboration skills across engineering, support, and customer-facing teams.
-Ability to create clarity in complex situations and drive customer success
-
-Master's Degree in Engineering, or related field AND 8+ years experience in technology industry, cloud, technical support, and/or customer experience engineering OR Bachelor's Degree in Engineering, Computer Science, Information Technology (IT), Data Analytics/Science, Artificial Intelligence (AI), or related field AND 12+ years experience in technology industry, cloud, technical support, and/or customer experience engineering OR equivalent experience.
-
-3+ years of customer facing experience.
-
-5+ years people management experience.   
-This position will be open for a minimum of 5 days, with applications accepted on an ongoing basis until the position is filled.
-
-Microsoft is an equal opportunity employer. All qualified applicants will receive consideration for employment without regard to age, ancestry, citizenship, color, family or medical care leave, gender identity or expression, genetic information, immigration status, marital status, medical condition, national origin, physical or mental disability, political affiliation, protected veteran or military status, race, ethnicity, religion, sex (including pregnancy), sexual orientation, or any other characteristic protected by applicable local laws, regulations and ordinances. If you need assistance with religious accommodations and/or a reasonable accommodation due to a disability during the application process, read more about requesting accommodations.",https://apply.careers.microsoft.com/careers/job/1970393556657136
 Amazon,"Principal Product Manager Technical—AI & Media Intelligence, Amazon Photos",8031558e-85c9-4674-b4a9-142b8564bf23,"IN, KA, Bengaluru","Amazon Photos helps consumers preserve and relive their memories. The service comes with unlimited photo storage for Prime members and is one of the largest used Prime benefits in 8 countries around the world. Amazon Photos' apps are available on iOS (4.8 rating), Android (4.7 rating), Web, Desktop, Fire Tablet & Fire TV. The service is also integrated into Alexa+ devices such as Echo Show and Fire TV and powers the ambient and AI-driven experiences on these devices. In 2025, the business released new natural language search, integrated with voice-based experiences on Alexa+ and is building a variety of AI-powered experiences that are in the process of being released to customers.
 
 We are hiring a Principal Product Manager Technical to lead product strategy for Amazon Photos' AI and media intelligence capabilities. This is a high-impact, high-autonomy role: you will be the sole Product Manager embedded within our Bangalore engineering organization, driving vision and roadmap for our most strategic technology investments. You will operate with significant independence while partnering closely with US-based product leadership to ensure alignment with Amazon Photos' global strategy. As the only PM in Bangalore, you will also steward product culture—mentoring engineers on product thinking and fostering customer obsession. This role offers significant growth potential.
@@ -107,33 +35,3 @@ Key job responsibilities
 
 A day in the life
 Your day starts with a US product leadership sync before collaborating with Bangalore engineering & applied science partners. You might analyze face clustering accuracy, debate whether we can distinguish a customer's golden retriever from their neighbor's, or write requirements for video semantic search. You end the day knowing your features will help a parent find every photo of their child's first year, or someone rediscover a video of a pet they miss. No two days look the same. The AI is pioneering, the problems are complex, and the impact is real. Every day you're helping millions keep cherished memories alive.",https://account.amazon.com/jobs/3158264/apply
-Amazon,Senior Product Manager - Technical,2135b6ef-a9e3-494d-aeff-778db0d1f066,"IN, KA, Bengaluru","Selling Partner Services continues to be high-growth and strategically important business within WW Stores org. Seller Fees team is responsible for developing science and tech products that enable this $100B+ WW business, and raise the bar on our Selling Partners experience.
-
-Within Seller Fees, this Sr. PMT will own key products that improve the integrity of fees charged to Sellers by envisioning new products and leveraging GenAI. This PMT will partner closely with engineering, science and UX teams to develop best-in-class products for Amazon to charge fees to Sellers. This role will support WW FBA teams across 20+ stores and be the voice of seller to improve their experience of selling on Amazon.
-
-Key job responsibilities
-1. Independently envision and execute large projects from start to finish including customer problem discovery, data gathering and analysis, designing creative solutions, defining product requirements and managing technical execution.
-2. Engage with science, engineering, and business stakeholders and customers throughout the entire product lifecycle.
-3. Manage prioritization and trade-offs among competing high value opportunities.
-4. Contribute to roadmap and OP1/OP2 planning.
-5. Own leadership review documents including PRFAQs, vision documents, monthly or quarterly business reviews. 
-
-A day in the life
-Each day can look different depending on the product lifecycle, but here's an example:
-1. Review PRFAQ with senior leaders
-2. Define product requirements for a new feature
-3. Dive deep into a seller escalation with regards to existing functionality
-4. Provide updates for a QBR/MBR
-5. Analyze data to quantify impact from a recently launched feature",https://account.amazon.com/jobs/3121799/apply
-Amazon,"Senior Technical Program Manager, Kindle ",6c079060-50f2-472d-8f16-94f1c2249f55,"IN, TN, Chennai","Do you enjoy the challenge and ownership that comes from driving complex, cross-functional and cross-organizational projects? Are you equally comfortable digging into business requirements and product planning, as well as drilling into technical architecture and design? If this type of work appeals to you, then maybe you are the right person to drive new features for the Amazon Kindle e-Book store website, Kindle Mobile reading Apps and innovative digital content services to provide the best possible shopping and reading experiences for our customers world wide.
-
-The Kindle Team is looking for a passionate, results-oriented Technical Program Manager who will be responsible for delivering engaging and innovative shopping and reading experiences for Kindle customers. In this role you will be responsible for conceiving, prioritizing, and executing development projects driven by your obsession to provide the best experiences for Kindle readers world wide. As a key leader for Kindle Content Engineering, you will work directly with multiple teams across development, program/product management, finance and tax, and the broader Amazon tech community to build and launch these software solutions and drive associated programs.
-
-This role requires hands-on project management skills, deep technical expertise, and excellent leadership skills. You will be responsible for collecting business and systems requirements from internal and external customers, writing specifications, driving project schedules from design to release, and managing the production launch. You will also be responsible for setting project management standards and expectations and delivering large, cross functional projects. 
-
-Key job responsibilities
-Thinking big and working with business stakeholders and technology leadership to define strategy and requirements.
-Delivering results by leading cross functional development teams from design to roll out.
-Earning trust through regular communication with senior management on status, risks and change control.
-Owning all metrics around initiative goals you will define. We make decisions based on data.
-Being resourceful and creative to overcome obstacles and turn challenges into opportunities.",https://account.amazon.com/jobs/3191243/apply
