@@ -106,12 +106,12 @@ docker ps | grep chroma
 
 ```bash
 docker run -d --name chroma \
-  -v chroma_data:/chroma/chroma \
+  -v /Users/satvikjain/Downloads/PM/chroma_data:/chroma/chroma \
   -p 8000:8000 \
   chromadb/chroma
 ```
 
-> ⚠️ The `-v chroma_data:/chroma/chroma` flag is **mandatory**. Without it, all career signals are lost on every Docker restart.
+> ⚠️ Uses a **local bind mount** (not Docker volume) so signals persist in `chroma_data/` inside the project folder across container restarts — no re-ingestion needed.
 > If the container already exists (stopped): `docker start chroma`
 
 **After ChromaDB is confirmed running**, perform a health check:
