@@ -1002,6 +1002,22 @@ To ensure your personal accounts (LinkedIn, Google, Amazon) are **100% safe**, t
 > [!WARNING]
 > Never try to "hardcode" your personal session cookies into a GitHub Action. This is the only way an automated scraper could lead to a personal account ban. Stay within the provided "Hybrid" framework to keep your search safe and clean.
 
+### Step 7.10 — Safe Zone Automation Technology
+
+For "Safe Zone" portals, the system uses two primary technologies:
+
+1.  **Lightweight HTTP Parsing (e.g., `google_scraper.py`):**
+    - **How it works:** Directly downloads the raw HTML of a search result page using the `requests` library.
+    - **Logic:** It searches for embedded JSON data blocks (like Google's `AF_initDataCallback`) and extracts job IDs, titles, and descriptions.
+    - **Risk:** Zero. It doesn't use a browser at all, so it's extremely fast and clean.
+
+2.  **Headless Playwright (for Dynamic Sites):**
+    - **How it works:** Launches a "virtual" browser on the GitHub Cloud that can click buttons and scroll through lazy-loaded lists.
+    - **Stealth Logic:** Uses "Stealth Plugins" to mask the fact that it's a script, rotating User-Agents and mimicking human mouse movements.
+
+> [!NOTE]
+> All automated scrapers only read **publicly available data**. They never attempt to bypass captchas or "brute force" sites, which is why the "Safe Zone" approach is sustainable.
+
 ---
 
 ## EPIC 8: Future Artifacts (Queued for Later)
