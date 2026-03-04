@@ -14,7 +14,7 @@ KB_FILE = "/Users/satvikjain/Downloads/PM/research documents/Scraping_Career_Por
 os.makedirs(DATA_DIR, exist_ok=True)
 
 class KnowledgeHub:
-    """Manages the long-term memory in the research markdown file."""
+    """Manages the long-term memory in the research markdown file. Strictly APPENDS to preserve history."""
     def __init__(self, path=KB_FILE):
         self.path = path
         self.content = self._load()

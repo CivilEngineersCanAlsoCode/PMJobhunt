@@ -1,0 +1,6 @@
+{
+    "url": "https://www.youtube.com/youtubei/v1/log_event?alt=json",
+    "data": {
+        "responseContext": {}
+    }
+}

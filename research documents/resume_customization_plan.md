@@ -438,24 +438,35 @@ Sync/
 
 ## EPIC 4: JD Input & Data Acquisition
 
-### Step 4.0 — Job Data Acquisition Mode (Optional) ⭐ NEW
+### Step 4.0 — Job Data Acquisition (Dual-Tier Strategy) ⭐ UPDATED
 
-Before processing, prompt the user for the data source:
+Before processing, the user acquires Job Descriptions via one of two production-ready modes:
 
-> "How would you like to provide the Job Descriptions?
-> [1] **Paste CSV**: Path to `Input/job_batch.csv` (Manual)
-> [2] **Dynamic Scrape**: Provide Company + Career Portal Link (Automated)"
+#### **Tier 1: Automated Capture (High-Speed)**
 
-**If [2] is selected:**
+- **Script:** `scripts/microsoft_automation.py`
+- **Target:** Eightfold-powered portals (Microsoft, etc.).
+- **Mechanism:**
+  - Launch headful Playwright with stealth profile.
+  - Automates "Next" pagination and pre-scrolls for lazy-loading.
+  - Intercepts background JSON payloads directly from the DOM/Network.
+- **Outcome:** Rapid extraction of 100+ jobs into structured data.
 
-1. **Target:** User provides `Link` + `Company`.
-2. **Learning Mode (First Time):** Launch `hybrid_scraper.py --learn --url [Link]`.
-   - Script observes user navigating to search results and clicking "Next".
-   - Saves pattern to `data/behavior.json`.
-3. **Automated Loop:** After pattern recognition, script runs the "Next" loop automatically to capture [N] jobs.
-4. **Data Normalization:** Convert captured JSON payloads into the standard `Input/job_batch.csv` format.
+#### **Tier 2: Universal Manual Capture (Passive/Stealth)**
 
-**Outcome:** A valid `job_batch.csv` is prepared for Step 4.1.
+- **Script:** `scripts/manual_capture.py`
+- **Target:** Any site with aggressive bot detection (Amazon, etc.).
+- **Mechanism:**
+  - Passive network listener (`page.on('response')`).
+  - Human drives the navigation and clicks (Zero Automation Risk).
+  - Script logs `[JSON]` traffic and auto-saves relevant job payloads.
+- **Normalization:** `universal_export` handles both single-job objects and search-result lists.
+
+#### **Step 4.0a — Unified CSV Export**
+
+- **Format:** `data/<Company>_manual_jobs.csv`
+- **Fields:** `Job Title`, `Job ID`, `Location`, `Description`, `Apply Link`.
+- **Note:** `Experience` column is removed; extraction happens dynamically in Epic 6.
 
 ### Step 4.1 — Read Input CSV
 
