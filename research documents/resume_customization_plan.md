@@ -436,7 +436,26 @@ Sync/
 
 ---
 
-## EPIC 4: JD Input Batch Loop
+## EPIC 4: JD Input & Data Acquisition
+
+### Step 4.0 — Job Data Acquisition Mode (Optional) ⭐ NEW
+
+Before processing, prompt the user for the data source:
+
+> "How would you like to provide the Job Descriptions?
+> [1] **Paste CSV**: Path to `Input/job_batch.csv` (Manual)
+> [2] **Dynamic Scrape**: Provide Company + Career Portal Link (Automated)"
+
+**If [2] is selected:**
+
+1. **Target:** User provides `Link` + `Company`.
+2. **Learning Mode (First Time):** Launch `hybrid_scraper.py --learn --url [Link]`.
+   - Script observes user navigating to search results and clicking "Next".
+   - Saves pattern to `data/behavior.json`.
+3. **Automated Loop:** After pattern recognition, script runs the "Next" loop automatically to capture [N] jobs.
+4. **Data Normalization:** Convert captured JSON payloads into the standard `Input/job_batch.csv` format.
+
+**Outcome:** A valid `job_batch.csv` is prepared for Step 4.1.
 
 ### Step 4.1 — Read Input CSV
 
