@@ -1,2 +1,55 @@
+# ── Personal data / runtime outputs ──────────────────────────────────────────
+# These are never committed to the dev (distributable) branch.
+
+# Browser profiles
 scraper_profile/
-scraper_profile/
+user_data/
+
+# Scraped session data
+data/raw_network/
+data/raw_dom/
+data/raw_snapshots/
+data/raw_websocket/
+data/google_raw.html
+data/response_*.json
+data/microsoft_detail_*.json
+data/Amazon_manual_jobs.csv
+data/Google_manual_jobs.csv
+data/microsoft_pm_jobs_full.csv
+data/final_job_batch.csv
+
+# Vector DB
+chroma_data/
+
+# Personal resume inputs & outputs
+Input/
+Resume Brain/
+output/
+
+# Personal notes
+plans for finding jobs/
+target companies list/
+target platforms/
+portal scraping/
+_archive/
+
+# Python / system artifacts
+__pycache__/
+*.pyc
+*.pyo
+.venv/
+*.egg-info/
+.DS_Store
+
+# Beads state (user-specific)
+.beads/
+
+# ── Dev branch keeps ──────────────────────────────────────────────────────────
+# scripts/          → all scripts (distributable)
+# data/manual_job_template.csv → blank template for manual entry
+# Templates/        → CV base template
+# .agents/          → workflow definitions
+# research documents/resume_customization_plan.md
+# research documents/Scraping_Career_Portals_Analysis.md
+# README.md
+# AGENTS.md
