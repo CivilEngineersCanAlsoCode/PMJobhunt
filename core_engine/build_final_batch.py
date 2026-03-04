@@ -7,7 +7,9 @@ import csv
 import os
 import re
 
-DATA_DIR = "/Users/satvikjain/Downloads/PM/data"
+# Determine the directory of the current script
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+DATA_DIR = os.path.join(BASE_DIR, "data")
 OUTPUT = os.path.join(DATA_DIR, "final_job_batch.csv")
 
 # Top 3 hand-picked most relevant Google PM jobs
