@@ -17,6 +17,7 @@ Sync is an AI-powered, signal engineering resume customization system. It:
 4. Constructs a pixel-perfect, one-page, brand-colored HTML/CSS resume
 5. Hosts all resumes on GitHub Pages with a master README.md index
 6. Tracks each application with a match score + recruiter artifacts
+7. **Automates the entire lifecycle via GitHub Actions (CI/CD)**
 
 > 🔒 **BASE TEMPLATE IS IMMUTABLE:** `Templates/Base_Template.html` is locked after initial creation.
 > It may **only** be modified via the `/edit-template` command.
@@ -915,6 +916,40 @@ After completing Phases 6.1–6.11 for one row:
 - Prompt: "✅ [Company] - [Role] done. Score: XX/100. Next application? (yes/no)"
 - If yes → next CSV row, restart from Epic 4.1
 - If no → `git push`, save state, exit
+
+---
+
+## EPIC 7: Continuous Automation (GitHub Actions) ⭐ NEW
+
+GitHub Actions serves as the engine that keeps the Sync platform "alive" without manual intervention.
+
+### Step 7.1 — Resume Generation Workflow
+
+**File:** `.github/workflows/resume-generation.yml`
+
+- **When it helps:** Whenever `data/` (job batches) or `templates/` (design) change.
+- **What it does:** Sets up a Python environment, runs `core_engine/build_final_batch.py`, and bundles the resulting HTML/PDF files as an Action Artifact.
+- **Benefit:** Decouples generation from your local machine.
+
+### Step 7.2 — Auto-Deployment Workflow
+
+**File:** `.github/workflows/deploy-portfolio.yml`
+
+- **When it helps:** Runs automatically after a successful Resume Generation.
+- **What it does:** Downloads the generated resumes and pushes them to the `gh-pages` branch.
+- **Benefit:** Your live portfolio URL (GitHub Pages) is always up to date with zero manual `git push` commands.
+
+### Step 7.3 — Job Scraper Cron
+
+**File:** `.github/workflows/job-scraper-cron.yml`
+
+- **When it helps:** Scheduled to run every day (e.g., 4 AM UTC).
+- **What it does:** Executes scrapers to find new jobs and commits them to the `main` branch.
+- **Benefit:** You wake up to a fresh list of jobs in your `data/` folder every morning.
+
+### Step 7.4 — CI-Compatible Paths
+
+All scripts in `core_engine/` must use `os.path.dirname(os.path.abspath(__file__))` to resolve paths relative to the repository root, ensuring they run identically on Mac (local) and Ubuntu (GitHub).
 
 ---
 
