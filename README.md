@@ -30,8 +30,20 @@ pip install playwright && playwright install chromium
 # Beads CLI (task tracking)
 pip install beads-cli
 
-# Antigravity (AI orchestrator — the agent that runs this system)
-# This system is designed to run inside Antigravity (Google DeepMind's agent IDE)
+# Docker (for ChromaDB vector store)
+docker --version
+
+# FIRST-TIME SETUP: run once from inside the project folder
+# This stores your project path so ChromaDB always knows where to persist data
+echo "SYNC_DIR=$(pwd)" > .env
+echo "CHROMA_DATA=$(pwd)/chroma_data" >> .env
+
+# Start ChromaDB bound to your local folder (data survives container restarts)
+export $(cat .env | xargs)
+docker run -d --name chroma \
+  -v "${CHROMA_DATA}:/chroma/chroma" \
+  -p 8000:8000 chromadb/chroma
+# On subsequent runs: docker start chroma
 ```
 
 ---

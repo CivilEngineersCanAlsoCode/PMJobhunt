@@ -104,14 +104,26 @@ docker ps | grep chroma
 
 **If ChromaDB container is NOT running**, start it with a **named volume** for persistent storage:
 
+First, detect the project root and write it to `.env` (one-time setup):
+
 ```bash
+# Run this once from inside the project folder
+echo "SYNC_DIR=$(pwd)" >> .env
+echo "CHROMA_DATA=$(pwd)/chroma_data" >> .env
+```
+
+Then start ChromaDB using the `.env` value — portable for any user, any machine:
+
+```bash
+# Load env and start ChromaDB bound to local chroma_data/
+export $(cat .env | xargs)
 docker run -d --name chroma \
-  -v /Users/satvikjain/Downloads/PM/chroma_data:/chroma/chroma \
+  -v "${CHROMA_DATA}:/chroma/chroma" \
   -p 8000:8000 \
   chromadb/chroma
 ```
 
-> ⚠️ Uses a **local bind mount** (not Docker volume) so signals persist in `chroma_data/` inside the project folder across container restarts — no re-ingestion needed.
+> ✅ **Why this works for any user:** `CHROMA_DATA` is derived from `$(pwd)` when the user runs setup from inside their cloned repo. It is never hardcoded.
 > If the container already exists (stopped): `docker start chroma`
 
 **After ChromaDB is confirmed running**, perform a health check:
